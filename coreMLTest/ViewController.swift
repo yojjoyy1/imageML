@@ -16,6 +16,8 @@ import MLKitTextRecognitionKorean
 import MLKitTextRecognitionChinese
 import MLKitTextRecognitionJapanese
 import MLKitTextRecognitionDevanagari
+import MarqueeLabel
+
 
 class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
 
@@ -26,6 +28,9 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
     var mlModel:MobileNetV2!
     let imagePredictor = ImagePredictor()
     var languageSeg:UISegmentedControl!
+    var marqueeLabel:MarqueeLabel!
+    var resultString:String!
+    var resultArray = ["手機","phone","花","草","樹","flower","windy","風","看板","地板","floor","餐盒"," lunch box"]
     //最大預測數
     let predictionsToShow = 2
     override func viewDidLoad() {
@@ -52,6 +57,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
     func initData(){
         let defaultConfig = MLModelConfiguration()
         mlModel = try? MobileNetV2(configuration: defaultConfig)
+        resultString = "手機"
     }
     func initCreateView(){
         self.view.backgroundColor = .white
@@ -72,6 +78,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
         textView.isSelectable = false
         textView.isEditable = false
         self.view.addSubview(textView)
+        self.textView.addObserver(self, forKeyPath: "text", options: [.old,.new], context: nil)
         let textVleading = NSLayoutConstraint(item: textView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10)
         let textVtop = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: self.imgV, attribute: .bottom, multiplier: 1.0, constant: 10);
         let textVtrailing = NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -10);
@@ -80,7 +87,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
         photoBtn = UIButton(frame: .zero)
         photoBtn.translatesAutoresizingMaskIntoConstraints = false
         photoBtn.setTitle("開啟相簿", for: .normal)
-        photoBtn.setTitleColor(.black, for: .normal)
+        photoBtn.setTitleColor(.red, for: .normal)
         photoBtn.backgroundColor = .lightGray
         photoBtn.addTarget(self, action: #selector(self.openLibraryAction), for: .touchUpInside)
         self.view.addSubview(photoBtn)
@@ -92,8 +99,8 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
         cameraBtn = UIButton(frame: .zero)
         cameraBtn.translatesAutoresizingMaskIntoConstraints = false
         cameraBtn.setTitle("開啟相機", for: .normal)
-        cameraBtn.setTitleColor(.systemGreen, for: .normal)
-        cameraBtn.backgroundColor = .darkGray
+        cameraBtn.setTitleColor(.red, for: .normal)
+        cameraBtn.backgroundColor = .lightGray
         cameraBtn.addTarget(self, action: #selector(self.cameraAction), for: .touchUpInside)
         self.view.addSubview(cameraBtn)
         let cameraBtnleading = NSLayoutConstraint(item: cameraBtn, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 5)
@@ -115,6 +122,16 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
             let segTop = NSLayoutConstraint(item: languageSeg, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: UIApplication.shared.statusBarFrame.height + 5)
             let segBottom = NSLayoutConstraint(item: languageSeg, attribute: .bottom, relatedBy: .equal, toItem: self.imgV, attribute: .top, multiplier: 1.0, constant: -5);
             NSLayoutConstraint.activate([segleading,segtrailing,segTop,segBottom])
+            
+            if marqueeLabel == nil{
+                self.view.layoutIfNeeded()
+                marqueeLabel = MarqueeLabel(frame: CGRect(x: self.view.center.x - 50, y: self.cameraBtn.frame.origin.y - 50, width: 100, height: 40), duration: 3.0, fadeLength: 10)
+                marqueeLabel.text = "請識別出含有\"\(self.resultString!)\"的字"
+                marqueeLabel.textColor = .black
+                marqueeLabel.animationCurve = .linear
+//                marqueeLabel.type = .left
+                self.view.addSubview(marqueeLabel)
+            }
         }
         
     }
@@ -168,7 +185,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
             if error == nil{
                 let resultText = result!.text
                 self.textView.text += "\n圖片文字識別: "
-                print("讀取到的總訊息:\(resultText)")
+//                print("讀取到的總訊息:\(resultText)")
                 if let resultBlocks = result?.blocks{
                     self.parseORCText(resultBlocks: resultBlocks)
                 }
@@ -183,7 +200,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
             let blockCornerPoints = block.cornerPoints
             let blockFrame = block.frame
             self.textView.text += "\n" + blockText
-            print("blockText:\(blockText)\nblockLanguages:\(blockLanguages)\nblockCornerPoints:\(blockCornerPoints)\nblockFrame:\(blockFrame)")
+//            print("blockText:\(blockText)\nblockLanguages:\(blockLanguages)\nblockCornerPoints:\(blockCornerPoints)\nblockFrame:\(blockFrame)")
         }
     }
     //MARK: UIImagePickerControllerDelegate
@@ -249,6 +266,58 @@ class ViewController: UIViewController,UINavigationControllerDelegate,UIImagePic
         }
 
         return topPredictions
+    }
+    //下燈籠特效
+    func createlamps() {
+        let lampLayer = CAEmitterLayer()
+        lampLayer.emitterPosition = CGPoint(x: view.bounds.width / 2, y: 0)
+        lampLayer.emitterSize = self.view.frame.size
+        lampLayer.emitterShape = .line
+        lampLayer.renderMode = .unordered
+        lampLayer.emitterMode = .outline
+        view.layer.addSublayer(lampLayer)
+
+        let lamp = CAEmitterCell()
+        lamp.contents = UIImage(named: "lamp")?.cgImage
+        lamp.lifetime = 10
+        lamp.lifetimeRange = 0.5
+        lamp.birthRate = 5
+        lamp.velocity = 100
+        lamp.velocityRange = 50
+        lamp.yAcceleration = 25.0
+        lamp.xAcceleration = 3.0
+        lamp.emissionLongitude = .pi
+        lamp.emissionRange = .pi / 4
+        lamp.scale = 0.5
+        lamp.scaleRange = 0.2
+        lampLayer.emitterCells = [lamp]
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.view.layer.replaceSublayer(lampLayer, with: CALayer())
+        }
+    }
+    //MARK: 觀察者模式
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        print("observeValue forKeyPath:\(keyPath),object:\(object),change:\(change)")
+        if object is UITextView {
+            if let newName = change?[.newKey] as? String {
+//                print("Name changed to: \(newName)")
+                if newName.lowercased().contains(self.resultString!){
+//                    self.resultString = "apple"
+                    marqueeLabel.text = "請識別出含有\"\(self.resultString!)\"的字"
+                    self.createlamps()
+                    let random = Int(arc4random_uniform(UInt32(self.resultArray.count)))
+//                    print("resultString:\(self.resultString),newResultString:\(self.resultArray[random])")
+                    while self.resultArray[random] == self.resultString{
+                        let random2 = Int(arc4random_uniform(UInt32(self.resultArray.count)))
+                        self.resultString = self.resultArray[random2]
+//                        print("aaaaa:\(self.resultArray[random2])")
+//                        self.resultString = self.resultArray[random]
+                    }
+                    marqueeLabel.text = "請識別出含有\"\(self.resultString!)\"的字"
+                }
+            }
+        }
     }
 }
 

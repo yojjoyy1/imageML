@@ -19,6 +19,9 @@
 		170D51A42C6A05B000044598 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D51A32C6A05B000044598 /* ImagePredictor.swift */; };
 		170D51A72C6A07CA00044598 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D51A52C6A07CA00044598 /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
 		170D51A82C6A07CA00044598 /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D51A62C6A07CA00044598 /* VNClassificationObservation+confidenceString.swift */; };
+		1756AC612C75C94C00E83F9B /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1756AC602C75C94C00E83F9B /* spark.png */; };
+		1756AC632C75CA7200E83F9B /* explosion.png in Resources */ = {isa = PBXBuildFile; fileRef = 1756AC622C75CA7200E83F9B /* explosion.png */; };
+		1756AC652C75D44200E83F9B /* lamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 1756AC642C75D44100E83F9B /* lamp.png */; };
 		783D1BA64136AE81C09783D8 /* Pods_coreMLTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD67857EEDF8F8B8D75EC4B7 /* Pods_coreMLTest.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		170D51A32C6A05B000044598 /* ImagePredictor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
 		170D51A52C6A07CA00044598 /* CGImagePropertyOrientation+UIImageOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift"; sourceTree = "<group>"; };
 		170D51A62C6A07CA00044598 /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
+		1756AC602C75C94C00E83F9B /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spark.png; path = coreMLTest/spark.png; sourceTree = SOURCE_ROOT; };
+		1756AC622C75CA7200E83F9B /* explosion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explosion.png; sourceTree = "<group>"; };
+		1756AC642C75D44100E83F9B /* lamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lamp.png; sourceTree = "<group>"; };
 		704272A585AD6BB76577DC54 /* Pods-coreMLTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coreMLTest.release.xcconfig"; path = "Target Support Files/Pods-coreMLTest/Pods-coreMLTest.release.xcconfig"; sourceTree = "<group>"; };
 		AD67857EEDF8F8B8D75EC4B7 /* Pods_coreMLTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_coreMLTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF07F91857BF6174D6A99569 /* Pods-coreMLTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coreMLTest.debug.xcconfig"; path = "Target Support Files/Pods-coreMLTest/Pods-coreMLTest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +82,9 @@
 			isa = PBXGroup;
 			children = (
 				170D519F2C69EF5100044598 /* MLData */,
+				1756AC602C75C94C00E83F9B /* spark.png */,
+				1756AC622C75CA7200E83F9B /* explosion.png */,
+				1756AC642C75D44100E83F9B /* lamp.png */,
 				170D51882C69E5C900044598 /* AppDelegate.swift */,
 				170D518A2C69E5C900044598 /* SceneDelegate.swift */,
 				170D518C2C69E5C900044598 /* ViewController.swift */,
@@ -179,8 +188,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				170D51922C69E5CA00044598 /* Assets.xcassets in Resources */,
+				1756AC612C75C94C00E83F9B /* spark.png in Resources */,
 				170D51952C69E5CA00044598 /* Base in Resources */,
 				170D51902C69E5C900044598 /* Base in Resources */,
+				1756AC632C75CA7200E83F9B /* explosion.png in Resources */,
+				1756AC652C75D44200E83F9B /* lamp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

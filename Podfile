@@ -12,4 +12,6 @@ pod 'GoogleMLKit/TextRecognitionChinese', '3.2.0'
 pod 'GoogleMLKit/TextRecognitionDevanagari', '3.2.0'
 pod 'GoogleMLKit/TextRecognitionJapanese', '3.2.0'
 pod 'GoogleMLKit/TextRecognitionKorean', '3.2.0'
+pod 'MarqueeLabel'
+
 end
